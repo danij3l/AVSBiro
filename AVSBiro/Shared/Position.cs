@@ -18,12 +18,5 @@ namespace AVSBiro.Shared
         public string Name { get { return _name; } set { _name = value; } }
         public int PayRank { get { return _payRank; } set { _payRank = value; } }
         public bool Obsolete { get { return _obsolete; } set { _obsolete = value; } }
-        public Position(int _id, string _name, int _payRank, bool _obsolete)
-        {
-            this.Id = _id;
-            this.Name = _name;
-            this._payRank = _payRank;
-            this._obsolete = _obsolete;
-        }
     }
 }

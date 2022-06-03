@@ -29,24 +29,5 @@ namespace AVSBiro.Shared
         public string Contract { get { return _contract; } set { _contract = value; } }
         public string IBAN { get { return _IBAN; } set { _IBAN = value; } }
         public bool Obsolete { get { return _obsolete; } set { _obsolete = value; } }
-
-        public Employee(int _id, string _firstName, string _lastName, decimal _brutto2, bool _paidOvertime, bool _employmentEnded, Position _position, string _contract, string _IBAN, bool _obsolete)
-        {
-            this.Id = _id;
-            this.FirstName = _firstName;
-            this.LastName = _lastName;
-            this.Brutto2 = _brutto2;
-            this.PaidOvertime = _paidOvertime;
-            this.EmploymentEnded = _employmentEnded;
-            this.Position = _position;
-            this.Contract = _contract;
-            this.IBAN = _IBAN;
-            this.Obsolete = _obsolete;
-        }
-
-        public static void Fire(Employee employee)
-        {
-            employee.EmploymentEnded = true;
-        }
     }
 }
