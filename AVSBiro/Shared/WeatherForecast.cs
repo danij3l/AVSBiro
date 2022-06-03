@@ -1,4 +1,4 @@
-namespace AVSBiro.Shared
+﻿namespace AVSBiro.Shared
 {
     public class WeatherForecast
     {
