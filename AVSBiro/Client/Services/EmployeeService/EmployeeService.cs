@@ -28,9 +28,12 @@ namespace AVSBiro.Client.Services.Employee_service
             throw new NotImplementedException();
         }
 
-        public Task GetSimgleEmployee(int id)
+        public async Task<Employee> GetSingleEmployee(int id)
         {
-            throw new NotImplementedException();
+            var result = await _http.GetFromJsonAsync<Employee>($"api/employee/{id}");
+            if (result != null)
+                return result;
+            throw new Exception("Employee not found!");
         }
     }
 }

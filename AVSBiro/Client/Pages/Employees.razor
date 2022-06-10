@@ -1,11 +1,12 @@
 ﻿@page "/employees"
 @inject IEmployeeService EmployeeService
+@inject NavigationManager NavigationManager
 
 <PageTitle>Employees</PageTitle>
 
 <h3>Employees</h3>
 
-<table>
+<table class="table">
     <thead>
         <tr>
             <th>First name</th>
@@ -20,6 +21,9 @@
                 <td>@employee.FirstName</td>
                 <td>@employee.LastName</td>
                 <td>@employee.Position.Name</td>
+                <td>
+                <button class="btn btn-primary" @onclick="(() => ShowEmployee(employee.Id))"> <i class="oi oi-pencil"></i> </button>
+                </td>
             </tr>
         }
     </tbody>
@@ -29,5 +33,10 @@
     protected override async Task OnInitializedAsync()
     {
         await EmployeeService.GetEmployees();
+    }
+
+    void ShowEmployee(int id)
+    {
+        NavigationManager.NavigateTo("employee/"+id);
     }
 }
