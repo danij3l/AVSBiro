@@ -8,6 +8,6 @@ namespace AVSBiro.Client.Services.Employee_service
         List<Position> Positions { get; set; }
         Task GetPositions();
         Task GetEmployees();
-        Task GetSimgleEmployee(int id);
+        Task<Employee> GetSingleEmployee(int id);
     }
 }

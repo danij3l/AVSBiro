@@ -26,12 +26,11 @@ else
     {
         if (Id == null)
         {
-            // create new Employee
+            // crt
         }
         else
         {
-            employee = await EmployeeService.GetSimgleEmployee((int)Id);
-            // zapeo - baca grešku cannot implicitly convert tyme void Employee (min 49.)
+            employee = await EmployeeService.GetSingleEmployee((int)Id);
         }
     }
 
