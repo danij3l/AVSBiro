@@ -29,5 +29,7 @@ namespace AVSBiro.Shared
         public string Contract { get { return _contract; } set { _contract = value; } }
         public string IBAN { get { return _IBAN; } set { _IBAN = value; } }
         public bool Obsolete { get { return _obsolete; } set { _obsolete = value; } }
+
+        public int PositionId { get; set; }
     }
 }

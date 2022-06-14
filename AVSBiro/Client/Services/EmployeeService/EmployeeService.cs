@@ -23,9 +23,11 @@ namespace AVSBiro.Client.Services.Employee_service
                 Employees = result;
         }
 
-        public Task GetPositions()
+        public async Task GetPositions()
         {
-            throw new NotImplementedException();
+            var result = await _http.GetFromJsonAsync<List<Position>>("api/superhero/comics");
+            if (result != null)
+                Positions = result;
         }
 
         public async Task<Employee> GetSingleEmployee(int id)

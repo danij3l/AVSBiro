@@ -27,6 +27,12 @@ namespace AVSBiro.Server.Controllers
         {
             return Ok(employees);
         }
+        public async Task<ActionResult<Position>> GetPositions()
+        {
+            return Ok(positions);
+        }
+
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetSingleEmployee(int id)
