@@ -44,8 +44,8 @@
 
         }
 
-        public DbSet<Employee> Emmployees { get; set; }
-
+        public DbSet<Employee> Employees { get; set; }
+        
         public DbSet<Position> Postions { get; set; }
     }
 }

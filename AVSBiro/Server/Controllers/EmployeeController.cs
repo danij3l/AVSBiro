@@ -7,43 +7,86 @@ namespace AVSBiro.Server.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
+        private readonly DataContext _context;
 
-        public static List<Position> positions = new List<Position>
+        public EmployeeController(DataContext context)
         {
-            new Position {Id=1, Name="PLC Programmer", PayRank=50000, Obsolete=false },
-            new Position {Id=2, Name="Junior Developer", PayRank=10000, Obsolete=false }
-        };
-
-        public static List<Employee> employees = new List<Employee>
-        {
-            new Employee {Id=1, Obsolete=false, Brutto2=10000, Contract="Contract" , EmploymentEnded=false, 
-                FirstName="Nikola", LastName="Lovrić", IBAN="ibanNikola", PaidOvertime=false, Position=positions[0]},
-            new Employee {Id=2, Obsolete=false, Brutto2=10000, Contract="Contract2" , EmploymentEnded=false,
-                FirstName="Danijel", LastName="Pavić", IBAN="ibanDanijel", PaidOvertime=false, Position=positions[1]},
-        };
+            _context = context;
+        }
 
         [HttpGet]
-        public async Task<ActionResult<Employee>> GetEmployees() //returns all employees via api
+        public async Task<ActionResult<List<Employee>>> GetEmployees()
         {
+            var employees = await _context.Employees.Include(sh => sh.Position).ToListAsync();
             return Ok(employees);
         }
-        public async Task<ActionResult<Position>> GetPositions()
+
+        [HttpGet("positions")]
+        public async Task<ActionResult<List<Position>>> GetPositions()
         {
+            var positions = await _context.Postions.ToListAsync();
             return Ok(positions);
         }
-
-
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetSingleEmployee(int id)
         {
-            var employee = employees.FirstOrDefault(emp => emp.Id == id);
+            var employee = await _context.Employees
+                .Include(e => e.Position)
+                .FirstOrDefaultAsync(e => e.Id == id);
             if (employee == null)
             {
-                return NotFound("Sorry - no employee ^^");
+                return NotFound("Sorry, no employee here. :/");
             }
             return Ok(employee);
         }
 
-    };
+        [HttpPost]
+        public async Task<ActionResult<List<Employee>>> CreateEmployee(Employee employee)
+        {
+            employee.Position = null;
+            _context.Employees.Add(employee);
+            await _context.SaveChangesAsync();
+
+            return Ok(await GetDbEmployees());
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<List<Employee>>> UpdateEmployee(Employee employee, int id)
+        {
+            var dbEmployee = await _context.Employees
+                .Include(sh => sh.Position)
+                .FirstOrDefaultAsync(sh => sh.Id == id);
+            if (dbEmployee == null)
+                return NotFound("Sorry, but no employee.");
+
+            dbEmployee.FirstName = employee.FirstName;
+            dbEmployee.LastName = employee.LastName;
+            dbEmployee.PositionId = employee.PositionId;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(await GetDbEmployees());
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<List<Employee>>> DeleteEmployee(int id)
+        {
+            var dbEmployee = await _context.Employees
+                .Include(sh => sh.Position)
+                .FirstOrDefaultAsync(sh => sh.Id == id);
+            if (dbEmployee == null)
+                return NotFound("Sorry, but no employee.");
+
+            _context.Employees.Remove(dbEmployee);
+            await _context.SaveChangesAsync();
+
+            return Ok(await GetDbEmployees());
+        }
+
+        private async Task<List<Employee>> GetDbEmployees()
+        {
+            return await _context.Employees.Include(sh => sh.Position).ToListAsync();
+        }
+    }
 }
