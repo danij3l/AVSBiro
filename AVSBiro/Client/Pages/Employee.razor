@@ -5,13 +5,13 @@
 
 @if (Id == null)
 {
-    <PageTitle>Create a new Super Hero</PageTitle>
-    <h3>Create a new Super Hero</h3>
+    <PageTitle>Create a new employee</PageTitle>
+    <h3>Create a new employee</h3>
 }
 else
 {
-    <PageTitle>Edit @employee.FirstName </PageTitle>
-    <h3>Edit @employee.FirstName </h3>
+    <PageTitle>Edit @employee.FirstName</PageTitle>
+    <h3>Edit @employee.FirstName</h3>
 }
 
 <EditForm Model="employee" OnSubmit="HandleSubmit">
@@ -26,7 +26,7 @@ else
     <div>
         <label>Position</label><br />
         <InputSelect @bind-Value="employee.PositionId" class="form-select">
-            @foreach (var position in SuperHeroService.Positions)
+            @foreach (var position in EmployeeService.Positions)
             {
                 <option value="@position.Id">@position.Name</option>
             }
@@ -34,7 +34,7 @@ else
     </div>
     <br />
     <button type="submit" class="btn btn-primary">@btnText</button>
-    <button type="button" class="btn btn-danger" @onclick="DeleteEmployee">Delete Employee</button>
+    <button type="button" class="btn btn-danger" @onclick="DeleteEmployee">Delete employee</button>
 </EditForm>
 
 @code {
@@ -49,7 +49,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        btnText = Id == null ? "Save new employee" : "Update employee";
+        btnText = Id == null ? "Save New employee" : "Update employee";
         await EmployeeService.GetPositions();
     }
 
@@ -58,7 +58,7 @@ else
         if (Id == null)
         {
             employee.Position = EmployeeService.Positions[0];
-            employee.PositionId = employee.PositionId;
+            employee.PositionId = employee.Position.Id;
         }
         else
         {
@@ -78,10 +78,8 @@ else
         }
     }
 
-    async Task DeleteHero()
+    async Task DeleteEmployee()
     {
         await EmployeeService.DeleteEmployee(employee.Id);
     }
 }
-
-

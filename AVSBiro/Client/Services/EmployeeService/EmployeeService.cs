@@ -53,7 +53,7 @@ namespace AVSBiro.Client.Services.Employee_service
 
         public async Task GetPositions()
         {
-            var result = await _http.GetFromJsonAsync<List<Position>>("api/superhero/comics");
+            var result = await _http.GetFromJsonAsync<List<Position>>("api/superemployee/Positions");
             if (result != null)
                 Positions = result;
         }

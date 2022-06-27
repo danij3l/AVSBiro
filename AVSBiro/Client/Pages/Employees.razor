@@ -28,6 +28,7 @@
         }
     </tbody>
 </table>
+<button class="btn btn-primary" @onclick="CreateNewEmployee">Create new employee</button>
 
 @code {
     protected override async Task OnInitializedAsync()
@@ -38,5 +39,10 @@
     void ShowEmployee(int id)
     {
         NavigationManager.NavigateTo("employee/"+id);
+    }
+
+    void CreateNewEmployee()
+    {
+        NavigationManager.NavigateTo("/employee");
     }
 }
